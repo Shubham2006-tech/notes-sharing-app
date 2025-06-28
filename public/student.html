@@ -3,46 +3,101 @@
 <head>
   <meta charset="UTF-8">
   <title>Student Dashboard</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #e0f2fe, #f8fafc);
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .note-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .note-card {
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease;
+      backdrop-filter: blur(12px);
+    }
+
+    .note-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .note-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .note-meta {
+      color: #555;
+      margin-bottom: 12px;
+    }
+
+    .download-btn {
+      display: inline-block;
+      padding: 10px 16px;
+      background-color: #4f46e5;
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 10px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h2>📚 Welcome Student</h2>
-
-  <form id="filterForm">
-    <select name="subject">
-      <option value="Maths">Maths</option>
-      <option value="Java">Java</option>
-      <option value="OS">OS</option>
-    </select>
-    <select name="year">
-      <option>FY</option>
-      <option>SY</option>
-      <option>TY</option>
-    </select>
-    <button type="submit">Load Notes</button>
-  </form>
-
-  <div id="notesContainer"></div>
+  <div class="container">
+    <h1>Welcome Student 👩‍🎓</h1>
+    <div class="note-grid" id="notesContainer">
+      <!-- Notes will be loaded here -->
+    </div>
+  </div>
 
   <script>
-    document.getElementById("filterForm").onsubmit = async (e) => {
-      e.preventDefault();
-      const data = Object.fromEntries(new FormData(e.target));
-      const res = await fetch(`/notes?subject=${data.subject}&year=${data.year}`);
+    async function loadNotes() {
+      const res = await fetch("/notes?year=FY"); // You can dynamically change year/subject
       const notes = await res.json();
-
       const container = document.getElementById("notesContainer");
-      container.innerHTML = "";
+
       notes.forEach(note => {
-        container.innerHTML += `
-          <div class="note-card">
-            <h4>${note.title}</h4>
-            <p>Subject: ${note.subject} | Year: ${note.year}</p>
-            <a href="/uploads/${note.filename}" target="_blank">View Note</a>
-          </div>
+        const card = document.createElement("div");
+        card.className = "note-card";
+        card.innerHTML = `
+          <div class="note-title">${note.title}</div>
+          <div class="note-meta">${note.subject} | ${note.year}</div>
+          <a class="download-btn" href="/uploads/${note.filename}" target="_blank">Download</a>
         `;
+        container.appendChild(card);
       });
-    };
+    }
+
+    loadNotes();
   </script>
 </body>
 </html>
