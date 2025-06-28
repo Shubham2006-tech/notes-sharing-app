@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const path = require("path");
+const path = require("path"); // ✅ Only once here
 const bodyParser = require("body-parser");
 const multer = require("multer");
 const cors = require("cors");
@@ -12,6 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 
+// ==== MongoDB Connection ====
 mongoose.connect("mongodb://localhost:27017/notesApp", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -48,7 +49,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-// ==== Routes ====
+// ==== API Routes ====
 app.post("/register", async (req, res) => {
     const user = new User(req.body);
     await user.save();
@@ -80,26 +81,24 @@ app.get("/notes", async (req, res) => {
     res.send(notes);
 });
 
-// ==== Start Server ====
-app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
-});
-
-const path = require("path");
-
-// Serve HTML pages manually
+// ==== Serve HTML Pages ====
 app.get("/login", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "login.html"));
+    res.sendFile(path.join(__dirname, "public", "login.html"));
 });
 
 app.get("/register", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "register.html"));
+    res.sendFile(path.join(__dirname, "public", "register.html"));
 });
 
 app.get("/student.html", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "student.html"));
+    res.sendFile(path.join(__dirname, "public", "student.html"));
 });
 
 app.get("/teacher.html", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "teacher.html"));
+    res.sendFile(path.join(__dirname, "public", "teacher.html"));
+});
+
+// ==== Start Server ====
+app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
 });
