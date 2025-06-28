@@ -84,3 +84,22 @@ app.get("/notes", async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });
+
+const path = require("path");
+
+// Serve HTML pages manually
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "login.html"));
+});
+
+app.get("/register", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "register.html"));
+});
+
+app.get("/student.html", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "student.html"));
+});
+
+app.get("/teacher.html", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "teacher.html"));
+});
