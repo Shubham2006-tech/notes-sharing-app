@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h2>Register</h2>
+  <form action="/register" method="POST">
+    <input name="name" placeholder="Full Name" required><br>
+    <input name="prn" placeholder="PRN (for students)" required><br>
+    <input name="email" placeholder="Email" required><br>
+    <input name="password" placeholder="Password" type="password" required><br>
+    <select name="role">
+      <option value="student">Student</option>
+      <option value="teacher">Teacher</option>
+    </select><br>
+    <select name="year">
+      <option>FY</option><option>SY</option><option>TY</option>
+    </select><br>
+    <select name="course">
+      <option>BSc CS</option><option>BCA</option><option>BBA</option>
+    </select><br>
+    <input name="subject" placeholder="Subject (for teachers)"><br>
+    <button type="submit">Register</button>
+  </form>
+</body>
+</html>

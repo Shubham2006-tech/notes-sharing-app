@@ -1,0 +1,38 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  padding: 40px;
+  background: #f7f9fc;
+  color: #333;
+  text-align: center;
+}
+
+form, .note-card {
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  width: 90%;
+  max-width: 500px;
+}
+
+input, select, button {
+  margin: 10px 0;
+  padding: 10px;
+  width: 90%;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background: #4caf50;
+  color: white;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #45a049;
+}

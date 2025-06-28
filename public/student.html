@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h2>📚 Welcome Student</h2>
+
+  <form id="filterForm">
+    <select name="subject">
+      <option value="Maths">Maths</option>
+      <option value="Java">Java</option>
+      <option value="OS">OS</option>
+    </select>
+    <select name="year">
+      <option>FY</option>
+      <option>SY</option>
+      <option>TY</option>
+    </select>
+    <button type="submit">Load Notes</button>
+  </form>
+
+  <div id="notesContainer"></div>
+
+  <script>
+    document.getElementById("filterForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target));
+      const res = await fetch(`/notes?subject=${data.subject}&year=${data.year}`);
+      const notes = await res.json();
+
+      const container = document.getElementById("notesContainer");
+      container.innerHTML = "";
+      notes.forEach(note => {
+        container.innerHTML += `
+          <div class="note-card">
+            <h4>${note.title}</h4>
+            <p>Subject: ${note.subject} | Year: ${note.year}</p>
+            <a href="/uploads/${note.filename}" target="_blank">View Note</a>
+          </div>
+        `;
+      });
+    };
+  </script>
+</body>
+</html>
