@@ -5,77 +5,67 @@
   <title>Register | NotesApp</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
-
     body {
-      background: linear-gradient(135deg, #e0e7ff, #f8fafc);
-      margin: 0;
-      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #fdfcfb, #e2d1c3);
       display: flex;
-      height: 100vh;
       align-items: center;
       justify-content: center;
-      animation: fadeIn 1s ease-in-out;
+      height: 100vh;
+      margin: 0;
     }
 
     .register-container {
       background: rgba(255, 255, 255, 0.9);
+      padding: 30px;
       border-radius: 20px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
-      padding: 40px 30px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
       width: 100%;
-      max-width: 450px;
-      backdrop-filter: blur(12px);
+      max-width: 500px;
     }
 
     h2 {
       text-align: center;
-      color: #333;
       margin-bottom: 25px;
-      font-weight: 600;
+      color: #333;
     }
 
     input, select {
       width: 100%;
-      padding: 14px;
-      margin-bottom: 18px;
+      padding: 12px;
+      margin-bottom: 15px;
       border: none;
-      border-radius: 12px;
-      background: #f1f5f9;
+      border-radius: 10px;
+      background-color: #f3f4f6;
       font-size: 15px;
     }
 
     input:focus, select:focus {
       outline: none;
       background: #fff;
-      box-shadow: 0 0 0 2px #4f46e5;
+      box-shadow: 0 0 0 2px #6366f1;
     }
 
     button {
       width: 100%;
       padding: 14px;
-      background-color: #4f46e5;
+      background-color: #6366f1;
       color: white;
       font-size: 16px;
       font-weight: 600;
       border: none;
-      border-radius: 12px;
+      border-radius: 10px;
       cursor: pointer;
-      transition: background 0.3s ease;
     }
 
     button:hover {
-      background-color: #3730a3;
+      background-color: #4f46e5;
     }
 
     .login-link {
       text-align: center;
       margin-top: 20px;
       font-size: 14px;
-      color: #555;
     }
 
     .login-link a {
@@ -87,55 +77,38 @@
     .login-link a:hover {
       text-decoration: underline;
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 480px) {
-      .register-container {
-        padding: 30px 20px;
-      }
-    }
   </style>
 </head>
 <body>
   <div class="register-container">
-    <h2>Register</h2>
+    <h2>Create Account</h2>
     <form id="registerForm">
       <input name="name" placeholder="Full Name" required>
       <input name="prn" placeholder="PRN Number" required>
-      <input name="email" type="email" placeholder="Email" required>
+      <input name="email" placeholder="Email" required>
       <input name="password" type="password" placeholder="Password" required>
-
       <select name="role" required>
         <option value="">Select Role</option>
         <option value="student">Student</option>
         <option value="teacher">Teacher</option>
       </select>
-
       <select name="course" required>
         <option value="">Select Course</option>
         <option value="BSc CS">BSc CS</option>
         <option value="BCA">BCA</option>
         <option value="BBA">BBA</option>
       </select>
-
       <select name="year" required>
         <option value="">Select Year</option>
         <option value="FY">FY</option>
         <option value="SY">SY</option>
         <option value="TY">TY</option>
       </select>
-
-      <input name="subject" placeholder="Subject (e.g., OS, DBMS)" required>
-
+      <input name="subject" placeholder="Subject" required>
       <button type="submit">Register</button>
     </form>
-
     <div class="login-link">
-      Already registered? <a href="/login">Login here</a>
+      Already have an account? <a href="/login">Login here</a>
     </div>
   </div>
 
@@ -144,17 +117,21 @@
       e.preventDefault();
       const formData = new FormData(e.target);
       const data = Object.fromEntries(formData);
+
       const res = await fetch("/register", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
       });
+
       const result = await res.json();
       if (result.status === "ok") {
-        alert("Registration successful!");
+        alert("Registered successfully!");
         window.location.href = "/login";
       } else {
-        alert("Registration failed. Try again.");
+        alert("Registration failed.");
       }
     };
   </script>
