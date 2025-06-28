@@ -113,27 +113,33 @@
   </div>
 
   <script>
-    document.getElementById("registerForm").onsubmit = async (e) => {
+    document.getElementById("registerForm").addEventListener("submit", async function(e) {
       e.preventDefault();
+
       const formData = new FormData(e.target);
       const data = Object.fromEntries(formData);
 
-      const res = await fetch("/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      });
+      try {
+        const res = await fetch("/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        });
 
-      const result = await res.json();
-      if (result.status === "ok") {
-        alert("Registered successfully!");
-        window.location.href = "/login";
-      } else {
-        alert("Registration failed.");
+        const result = await res.json();
+        if (result.status === "ok") {
+          alert("Registered successfully!");
+          window.location.href = "/login";
+        } else {
+          alert("Registration failed: " + result.message);
+        }
+      } catch (err) {
+        console.error("Error:", err);
+        alert("Error connecting to server.");
       }
-    };
+    });
   </script>
 </body>
 </html>
