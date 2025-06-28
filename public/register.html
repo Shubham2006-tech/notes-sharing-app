@@ -2,28 +2,161 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Register</title>
-  <link rel="stylesheet" href="css/style.css">
+  <title>Register | NotesApp</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #e0e7ff, #f8fafc);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      height: 100vh;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .register-container {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+      padding: 40px 30px;
+      width: 100%;
+      max-width: 450px;
+      backdrop-filter: blur(12px);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 25px;
+      font-weight: 600;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 18px;
+      border: none;
+      border-radius: 12px;
+      background: #f1f5f9;
+      font-size: 15px;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      background: #fff;
+      box-shadow: 0 0 0 2px #4f46e5;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #4f46e5;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #3730a3;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .login-link a {
+      color: #4f46e5;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .register-container {
+        padding: 30px 20px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h2>Register</h2>
-  <form action="/register" method="POST">
-    <input name="name" placeholder="Full Name" required><br>
-    <input name="prn" placeholder="PRN (for students)" required><br>
-    <input name="email" placeholder="Email" required><br>
-    <input name="password" placeholder="Password" type="password" required><br>
-    <select name="role">
-      <option value="student">Student</option>
-      <option value="teacher">Teacher</option>
-    </select><br>
-    <select name="year">
-      <option>FY</option><option>SY</option><option>TY</option>
-    </select><br>
-    <select name="course">
-      <option>BSc CS</option><option>BCA</option><option>BBA</option>
-    </select><br>
-    <input name="subject" placeholder="Subject (for teachers)"><br>
-    <button type="submit">Register</button>
-  </form>
+  <div class="register-container">
+    <h2>Register</h2>
+    <form id="registerForm">
+      <input name="name" placeholder="Full Name" required>
+      <input name="prn" placeholder="PRN Number" required>
+      <input name="email" type="email" placeholder="Email" required>
+      <input name="password" type="password" placeholder="Password" required>
+
+      <select name="role" required>
+        <option value="">Select Role</option>
+        <option value="student">Student</option>
+        <option value="teacher">Teacher</option>
+      </select>
+
+      <select name="course" required>
+        <option value="">Select Course</option>
+        <option value="BSc CS">BSc CS</option>
+        <option value="BCA">BCA</option>
+        <option value="BBA">BBA</option>
+      </select>
+
+      <select name="year" required>
+        <option value="">Select Year</option>
+        <option value="FY">FY</option>
+        <option value="SY">SY</option>
+        <option value="TY">TY</option>
+      </select>
+
+      <input name="subject" placeholder="Subject (e.g., OS, DBMS)" required>
+
+      <button type="submit">Register</button>
+    </form>
+
+    <div class="login-link">
+      Already registered? <a href="/login">Login here</a>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("registerForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData);
+      const res = await fetch("/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const result = await res.json();
+      if (result.status === "ok") {
+        alert("Registration successful!");
+        window.location.href = "/login";
+      } else {
+        alert("Registration failed. Try again.");
+      }
+    };
+  </script>
 </body>
 </html>
