@@ -98,6 +98,10 @@ app.get("/teacher.html", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "teacher.html"));
 });
 
+app.get("/", (req, res) => {
+  res.redirect("/login");
+});
+
 // ==== Start Server ====
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
